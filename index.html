@@ -1,243 +1,180 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>تطبيق الذكريات</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(to bottom right, #e0f7fa, #fce4ec);
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #4a90e2;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
+      font-family: 'Tahoma', sans-serif;
+      direction: rtl;
+      background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+      padding: 20px;
     }
 
     .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 10px;
+      max-width: 700px;
+      margin: auto;
     }
 
-    .memory-card {
-      background-color: white;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      overflow: hidden;
+    h2 {
+      text-align: center;
     }
 
-    .memory-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .memory-content {
-      padding: 15px;
-    }
-
-    .user-info {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .timestamp {
-      color: #999;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      color: #555;
-      position: relative;
-    }
-
-    .actions span {
-      cursor: pointer;
-      position: relative;
-    }
-
-    .reactions-box {
-      position: absolute;
-      bottom: 30px;
-      right: 0;
+    .form-section, .memory {
       background: white;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      padding: 5px 10px;
-      display: none;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .reactions-box span {
-      font-size: 20px;
-      margin: 5px;
-      cursor: pointer;
+    input, select, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
 
-    #addMemoryBtn {
-      background-color: #4caf50;
+    button {
+      padding: 10px 20px;
+      background: #007bff;
       color: white;
-      padding: 12px 20px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
-      margin: 20px auto;
+    }
+
+    .memory img, .memory video {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .reaction-btn {
+      position: relative;
+      display: inline-block;
+    }
+
+    .reactions {
+      display: none;
+      position: absolute;
+      bottom: 120%;
+      right: 0;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      padding: 5px 10px;
+    }
+
+    .reactions span {
+      cursor: pointer;
+      font-size: 22px;
+      margin: 0 4px;
+    }
+
+    .reaction-btn:hover .reactions {
       display: block;
     }
 
-    #uploadForm {
-      display: none;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    .comments {
+      margin-top: 10px;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
-
-    input[type="file"], textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-    }
-
-    textarea {
-      resize: vertical;
+    .comment {
+      background: #eee;
+      padding: 6px;
+      border-radius: 5px;
+      margin: 5px 0;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>📸 ذكرياتك</h2>
 
-<header>📸 تطبيق الذكريات</header>
-
-<button id="addMemoryBtn">➕ إضافة ذكرى</button>
-
-<div class="container">
-  <!-- نموذج رفع -->
-  <div id="uploadForm">
-    <input type="file" id="imageInput" accept="image/*">
-    <textarea id="descInput" rows="3" placeholder="اكتب وصف الذكرى..."></textarea>
-    <button onclick="addMemory()">نشر الذكرى</button>
-  </div>
-
-  <!-- بطاقات الذكريات -->
-  <div id="memories">
-    <!-- ذكرى مبدئية -->
-    <div class="memory-card">
-      <img src="https://via.placeholder.com/800x400?text=ذكريات+جميلة" alt="ذكرى">
-      <div class="memory-content">
-        <div class="user-info">محمد علي</div>
-        <div class="timestamp">منذ ساعتين</div>
-        <p>أجمل يوم قضيته مع الأصدقاء في الحديقة 😍🌳</p>
-        <div class="actions">
-          <span class="like-btn">❤️ إعجاب</span>
-          <span>💬 تعليق</span>
-          <span>🔁 مشاركة</span>
-          <div class="reactions-box">
-            <span onclick="selectReaction(this)">❤️</span>
-            <span onclick="selectReaction(this)">😂</span>
-            <span onclick="selectReaction(this)">😢</span>
-            <span onclick="selectReaction(this)">😍</span>
-          </div>
-        </div>
-      </div>
+    <div class="form-section">
+      <textarea id="text" placeholder="ما الذي تفكر فيه؟"></textarea>
+      <input type="file" id="media" accept="image/*,video/*">
+      <select id="feeling">
+        <option value="">اختر حالتك</option>
+        <option value="😊 يشعر بالسعادة">😊 يشعر بالسعادة</option>
+        <option value="😢 يشعر بالحزن">😢 يشعر بالحزن</option>
+        <option value="😡 يشعر بالغضب">😡 يشعر بالغضب</option>
+        <option value="😂 يشعر بالضحك">😂 يشعر بالضحك</option>
+        <option value="❤️ يشعر بالحب">❤️ يشعر بالحب</option>
+      </select>
+      <button onclick="addMemory()">نشر</button>
     </div>
+
+    <div id="memoriesContainer"></div>
   </div>
-</div>
 
-<footer>© 2025 جميع الحقوق محفوظة - تطبيق الذكريات</footer>
+  <script>
+    function addMemory() {
+      const text = document.getElementById("text").value;
+      const file = document.getElementById("media").files[0];
+      const feeling = document.getElementById("feeling").value;
 
-<script>
-  // إظهار/إخفاء النموذج
-  document.getElementById("addMemoryBtn").onclick = function () {
-    const form = document.getElementById("uploadForm");
-    form.style.display = form.style.display === "none" ? "block" : "none";
-  };
+      const memory = document.createElement("div");
+      memory.className = "memory";
 
-  // إضافة ذكرى جديدة
-  function addMemory() {
-    const fileInput = document.getElementById("imageInput");
-    const desc = document.getElementById("descInput").value.trim();
+      let content = "";
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const mediaType = file.type.startsWith("video") ? "video" : "img";
+          content = mediaType === "video"
+            ? `<video controls src="${e.target.result}"></video>`
+            : `<img src="${e.target.result}" />`;
+          renderMemory(memory, text, feeling, content);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        renderMemory(memory, text, feeling, "");
+      }
 
-    if (!fileInput.files[0] || desc === "") {
-      alert("الرجاء اختيار صورة وكتابة وصف");
-      return;
+      document.getElementById("text").value = "";
+      document.getElementById("media").value = "";
+      document.getElementById("feeling").value = "";
     }
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const imgSrc = e.target.result;
-
-      const card = document.createElement("div");
-      card.className = "memory-card";
-      card.innerHTML = `
-        <img src="${imgSrc}" alt="ذكرى جديدة">
-        <div class="memory-content">
-          <div class="user-info">أنت</div>
-          <div class="timestamp">الآن</div>
-          <p>${desc}</p>
-          <div class="actions">
-            <span class="like-btn">❤️ إعجاب</span>
-            <span>💬 تعليق</span>
-            <span>🔁 مشاركة</span>
-            <div class="reactions-box">
-              <span onclick="selectReaction(this)">❤️</span>
-              <span onclick="selectReaction(this)">😂</span>
-              <span onclick="selectReaction(this)">😢</span>
-              <span onclick="selectReaction(this)">😍</span>
-            </div>
+    function renderMemory(container, text, feeling, mediaHTML) {
+      container.innerHTML = `
+        ${mediaHTML}
+        <p>${text}</p>
+        ${feeling ? `<p><strong>${feeling}</strong></p>` : ""}
+        <div class="reaction-btn">
+          <span>👍</span>
+          <div class="reactions">
+            <span onclick="this.parentElement.previousElementSibling.innerText='❤️'">❤️</span>
+            <span onclick="this.parentElement.previousElementSibling.innerText='😂'">😂</span>
+            <span onclick="this.parentElement.previousElementSibling.innerText='😢'">😢</span>
+            <span onclick="this.parentElement.previousElementSibling.innerText='😡'">😡</span>
           </div>
         </div>
+
+        <div class="comments">
+          <input type="text" placeholder="اكتب تعليقًا" onkeydown="if(event.key==='Enter'){addComment(this)}">
+          <div class="comment-list"></div>
+        </div>
       `;
+      document.getElementById("memoriesContainer").prepend(container);
+    }
 
-      document.getElementById("memories").prepend(card);
-      fileInput.value = "";
-      document.getElementById("descInput").value = "";
-      document.getElementById("uploadForm").style.display = "none";
-      addReactionListeners(); // تفعيل وظائف الإيموجي
-    };
-
-    reader.readAsDataURL(fileInput.files[0]);
-  }
-
-  // اختيار إيموجي تفاعل
-  function selectReaction(el) {
-    const likeBtn = el.closest('.actions').querySelector('.like-btn');
-    likeBtn.textContent = el.textContent;
-    el.closest('.reactions-box').style.display = 'none';
-  }
-
-  // تفعيل زر التفاعل عند الضغط
-  function addReactionListeners() {
-    document.querySelectorAll('.like-btn').forEach(btn => {
-      btn.onclick = function () {
-        const box = this.parentElement.querySelector('.reactions-box');
-        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
-      };
-    });
-  }
-
-  // أول تفعيل
-  addReactionListeners();
-</script>
-
+    function addComment(input) {
+      const text = input.value.trim();
+      if (text) {
+        const commentBox = input.nextElementSibling;
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerText = text;
+        commentBox.appendChild(div);
+        input.value = "";
+      }
+    }
+  </script>
 </body>
 </html>
