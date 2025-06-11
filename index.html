@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الذكريات</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <!-- شريط أعلى -->
+    <header>
+        <div class="logo">الذكريات</div>
+        <div class="top-icons">
+            <button onclick="toggleTheme()">🌙</button>
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showGames()">🎮</button>
+            <button onclick="showLive()">🔴 لايف</button>
+            <button onclick="showChat()">💬</button>
+        </div>
+    </header>
+
+    <!-- مربع البحث -->
+    <div id="search-box" class="hidden">
+        <input type="text" placeholder="ابحث عن مستخدم...">
+    </div>
+
+    <!-- مربع إضافة ذكرى -->
+    <section id="new-memory">
+        <h2>أضف ذكرى جديدة</h2>
+        <input type="file" id="media-upload">
+        <textarea placeholder="اكتب الذكرى..."></textarea>
+        <select id="feeling">
+            <option>يشعر بالسعادة</option>
+            <option>يشعر بالحزن</option>
+            <option>يشعر بالحب</option>
+        </select>
+        <button onclick="addMemory()">نشر</button>
+    </section>
+
+    <!-- المنشورات -->
+    <main id="posts">
+        <!-- سيتم توليد المنشورات من الجافاسكربت -->
+    </main>
+
+    <!-- صندوق المحادثة -->
+    <section id="chat-box" class="hidden">
+        <h3>الدردشة العامة</h3>
+        <div id="chat-messages"></div>
+        <input type="text" placeholder="اكتب رسالة..." onkeydown="sendChat(event)">
+    </section>
+
+</body>
+</html>

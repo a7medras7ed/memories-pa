@@ -1,0 +1,40 @@
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    direction: rtl;
+    transition: background 0.3s, color 0.3s;
+}
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+}
+
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+}
+
+.top-icons button {
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+#search-box.hidden,
+#chat-box.hidden {
+    display: none;
+}
+
+#posts {
+    padding: 10px;
+}
