@@ -65,10 +65,41 @@
       cursor: pointer;
     }
 
+    #addMemoryBtn {
+      background-color: #4caf50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    #uploadForm {
+      display: none;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
     footer {
       text-align: center;
       padding: 20px;
       color: #aaa;
+    }
+
+    input[type="file"], textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    textarea {
+      resize: vertical;
     }
   </style>
 </head>
@@ -76,41 +107,85 @@
 
 <header>📸 تطبيق الذكريات</header>
 
+<button id="addMemoryBtn">➕ إضافة ذكرى</button>
+
 <div class="container">
+  <!-- نموذج رفع -->
+  <div id="uploadForm">
+    <input type="file" id="imageInput" accept="image/*">
+    <textarea id="descInput" rows="3" placeholder="اكتب وصف الذكرى..."></textarea>
+    <button onclick="addMemory()">نشر الذكرى</button>
+  </div>
 
-  <!-- بوست/ذكرى -->
-  <div class="memory-card">
-    <img src="https://via.placeholder.com/800x400?text=ذكريات+جميلة" alt="ذكرى">
-    <div class="memory-content">
-      <div class="user-info">محمد علي</div>
-      <div class="timestamp">منذ ساعتين</div>
-      <p>أجمل يوم قضيته مع الأصدقاء في الحديقة 😍🌳</p>
-      <div class="actions">
-        <span>❤️ إعجاب</span>
-        <span>💬 تعليق</span>
-        <span>🔁 مشاركة</span>
+  <!-- بطاقات الذكريات -->
+  <div id="memories">
+    <!-- أمثلة جاهزة -->
+    <div class="memory-card">
+      <img src="https://via.placeholder.com/800x400?text=ذكريات+جميلة" alt="ذكرى">
+      <div class="memory-content">
+        <div class="user-info">محمد علي</div>
+        <div class="timestamp">منذ ساعتين</div>
+        <p>أجمل يوم قضيته مع الأصدقاء في الحديقة 😍🌳</p>
+        <div class="actions">
+          <span>❤️ إعجاب</span>
+          <span>💬 تعليق</span>
+          <span>🔁 مشاركة</span>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- ذكرى أخرى -->
-  <div class="memory-card">
-    <img src="https://via.placeholder.com/800x400/eeeeee/333?text=رحلة+البحر" alt="ذكرى 2">
-    <div class="memory-content">
-      <div class="user-info">سارة يوسف</div>
-      <div class="timestamp">منذ يوم</div>
-      <p>رحلة لا تنسى إلى البحر! 🏖️</p>
-      <div class="actions">
-        <span>❤️ إعجاب</span>
-        <span>💬 تعليق</span>
-        <span>🔁 مشاركة</span>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <footer>© 2025 جميع الحقوق محفوظة - تطبيق الذكريات</footer>
+
+<script>
+  // إظهار/إخفاء النموذج
+  document.getElementById("addMemoryBtn").onclick = function () {
+    const form = document.getElementById("uploadForm");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+  };
+
+  // إضافة ذكرى جديدة
+  function addMemory() {
+    const fileInput = document.getElementById("imageInput");
+    const desc = document.getElementById("descInput").value.trim();
+
+    if (!fileInput.files[0] || desc === "") {
+      alert("الرجاء اختيار صورة وكتابة وصف");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const imgSrc = e.target.result;
+
+      const card = document.createElement("div");
+      card.className = "memory-card";
+      card.innerHTML = `
+        <img src="${imgSrc}" alt="ذكرى جديدة">
+        <div class="memory-content">
+          <div class="user-info">أنت</div>
+          <div class="timestamp">الآن</div>
+          <p>${desc}</p>
+          <div class="actions">
+            <span>❤️ إعجاب</span>
+            <span>💬 تعليق</span>
+            <span>🔁 مشاركة</span>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("memories").prepend(card);
+
+      // تصفير النموذج
+      fileInput.value = "";
+      document.getElementById("descInput").value = "";
+      document.getElementById("uploadForm").style.display = "none";
+    };
+
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+</script>
 
 </body>
 </html>
