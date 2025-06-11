@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>صفحة الذكريات</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      direction: rtl;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .memory-card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .memory-card img, .memory-card video {
+      width: 100%;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    .buttons button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #555;
+    }
+    .comment-box {
+      display: none;
+      margin-top: 10px;
+    }
+    .comment-box input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+    .user {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .memory-text {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📸 صفحة الذكريات</h2>
+
+    <div class="memory-card">
+      <div class="user">Ahmed</div>
+      <div class="memory-text">يشعر بالسعادة 😄</div>
+      <img src="https://via.placeholder.com/400x200" alt="Memory">
+      <div class="buttons">
+        <button onclick="alert('تم تسجيل الإعجاب ❤️')">👍 إعجاب</button>
+        <button onclick="toggleCommentBox(this)">💬 تعليق</button>
+        <button onclick="alert('تم نسخ رابط المشاركة!')">🔗 مشاركة</button>
+      </div>
+      <div class="comment-box">
+        <input type="text" placeholder="اكتب تعليقك هنا...">
+      </div>
+    </div>
+
+    <div class="memory-card">
+      <div class="user">Laila</div>
+      <div class="memory-text">بدون صورة، فقط نص 😊</div>
+      <div class="buttons">
+        <button onclick="alert('تم تسجيل الإعجاب ❤️')">👍 إعجاب</button>
+        <button onclick="toggleCommentBox(this)">💬 تعليق</button>
+        <button onclick="alert('تم نسخ رابط المشاركة!')">🔗 مشاركة</button>
+      </div>
+      <div class="comment-box">
+        <input type="text" placeholder="اكتب تعليقك هنا...">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleCommentBox(btn) {
+      const box = btn.parentElement.nextElementSibling;
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
